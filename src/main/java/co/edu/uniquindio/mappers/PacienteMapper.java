@@ -4,6 +4,7 @@ import co.edu.uniquindio.dto.paciente.CrearPacienteDTO;
 import co.edu.uniquindio.dto.paciente.EditarPacienteDTO;
 import co.edu.uniquindio.dto.paciente.PacienteDTO;
 import co.edu.uniquindio.models.documents.Paciente;
+import co.edu.uniquindio.models.enums.EstadoUsuario;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,8 @@ public class PacienteMapper {
         paciente.setAltura(dto.altura());
         paciente.setContactoEmergencia(dto.contactoEmergencia());
         paciente.setTelefonoEmergencia(dto.telefonoEmergencia());
+
+        paciente.setEstado(EstadoUsuario.INACTIVO); // ← NUEVO
 
         return paciente;
     }

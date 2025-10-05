@@ -2,6 +2,7 @@ package co.edu.uniquindio.config;
 
 import co.edu.uniquindio.models.documents.Medico;
 import co.edu.uniquindio.models.enums.Especialidad;
+import co.edu.uniquindio.models.enums.EstadoUsuario;
 import co.edu.uniquindio.repository.MedicoRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -88,7 +89,8 @@ public class DataLoader implements CommandLineRunner {
         medico.setAñosExperiencia(experiencia);
         medico.setConsultorio(consultorio);
         medico.setCalificacion(5.0);
-        medico.setEstado(true);
+        medico.setEstadoProfesional(true); // ← Estado profesional (boolean)
+        medico.setEstado(EstadoUsuario.ACTIVO); // ← Estado de cuenta (EstadoUsuario)
         return medico;
     }
 }

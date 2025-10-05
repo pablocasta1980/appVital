@@ -1,6 +1,7 @@
 package co.edu.uniquindio.dto.medico;
 
 import co.edu.uniquindio.models.enums.Especialidad;
+import co.edu.uniquindio.models.enums.EstadoUsuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
@@ -21,6 +22,7 @@ public record EditarMedicoDTO(
         LocalTime horaFin,
         Integer añosExperiencia,
         String consultorio,
-        Boolean estado
+        EstadoUsuario estado, // ← CAMBIAR de Boolean a EstadoUsuario
+        Boolean estadoProfesional
 ) {
 }

@@ -110,7 +110,9 @@ public class MedicoServicioImpl implements MedicoServicio {
         ObjectId objectId = new ObjectId(id);
         Medico medico = medicoRepo.findById(objectId)
                 .orElseThrow(() -> new Exception("Médico no encontrado"));
-        medico.setEstado(estado);
+
+        // Cambiar el estado PROFESIONAL (no el estado de cuenta)
+        medico.setEstadoProfesional(estado); // ← Cambiar estadoProfesional, no estado
         medicoRepo.save(medico);
     }
 

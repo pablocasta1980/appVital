@@ -1,6 +1,7 @@
 package co.edu.uniquindio.models.documents;
 
 import co.edu.uniquindio.models.enums.Especialidad;
+import co.edu.uniquindio.models.enums.EstadoUsuario;
 import co.edu.uniquindio.models.enums.RolUsuario;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,8 +23,10 @@ public class Medico extends Usuario {
     private LocalTime horaFin;
     private Integer añosExperiencia;
     private Double calificacion; // 1.0 - 5.0
-    private Boolean estado; // activo/inactivo
     private String consultorio;
+
+    // NUEVO: Estado profesional (diferente del estado de cuenta)
+    private Boolean estadoProfesional; // true = activo, false = inactivo
 
     // Constructor específico para Médico
     public Medico(String identificacion, String nombre, String email, String telefono,
@@ -37,6 +40,8 @@ public class Medico extends Usuario {
         this.password = password;
         this.especialidad = especialidad;
         this.rol = RolUsuario.MEDICO;
-        this.estado = true;
+        this.estado = EstadoUsuario.INACTIVO; // Estado de cuenta (de la clase Usuario)
+        this.estadoProfesional = true; // Estado profesional (activo por defecto)
+        this.calificacion = 0.0; // Calificación inicial
     }
-    }
+}

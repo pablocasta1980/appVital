@@ -5,6 +5,7 @@ import co.edu.uniquindio.dto.paciente.EditarPacienteDTO;
 import co.edu.uniquindio.dto.paciente.PacienteDTO;
 import co.edu.uniquindio.mappers.PacienteMapper;
 import co.edu.uniquindio.models.documents.Paciente;
+import co.edu.uniquindio.models.enums.EstadoUsuario;
 import co.edu.uniquindio.repository.PacienteRepo;
 import co.edu.uniquindio.servicios.interfaces.PacienteServicio;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,23 @@ public class PacienteServicioImpl implements PacienteServicio {
 
         Paciente paciente = pacienteMapper.toDocument(pacienteDTO);
         paciente.setPassword(passwordEncoder.encode(pacienteDTO.password()));
+        paciente.setEstado(EstadoUsuario.INACTIVO); // Estado inicial
         pacienteRepo.save(paciente);
+
+        // Enviar email de confirmación
+        enviarEmailConfirmacion(paciente);
+    }
+
+    private void enviarEmailConfirmacion(Paciente paciente) throws Exception {
+        // Por ahora solo imprimimos un mensaje (implementación temporal)
+        System.out.println("📧 EMAIL DE CONFIRMACIÓN SIMULADO");
+        System.out.println("Para: " + paciente.getEmail());
+        System.out.println("Asunto: Confirma tu cuenta - Sistema de Salud");
+        System.out.println("Mensaje: Hola " + paciente.getNombre() + ", para activar tu cuenta usa el token simulado");
+        System.out.println("🔗 En producción, se enviaría un email real con enlace de confirmación");
+
+        // En una implementación real, usarías:
+        // authServicio.reenviarCodigoConfirmacion(paciente.getEmail());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package co.edu.uniquindio.models.documents;
 
+import co.edu.uniquindio.models.enums.EstadoUsuario;
 import co.edu.uniquindio.models.enums.RolUsuario;
 import lombok.*;
 import org.bson.types.ObjectId;
@@ -18,7 +19,6 @@ public abstract class Usuario {
     @EqualsAndHashCode.Include
     protected ObjectId codigo;
 
-    // Cambiar de private a protected para que las clases hijas puedan acceder
     protected String identificacion;
     protected String nombre;
     protected String email;
@@ -27,4 +27,5 @@ public abstract class Usuario {
     protected String direccion;
     protected String password;
     protected RolUsuario rol;
+    protected EstadoUsuario estado; // ← NUEVO: Estado de la cuenta
 }

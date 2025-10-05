@@ -4,6 +4,7 @@ import co.edu.uniquindio.dto.medico.CrearMedicoDTO;
 import co.edu.uniquindio.dto.medico.EditarMedicoDTO;
 import co.edu.uniquindio.dto.medico.MedicoDTO;
 import co.edu.uniquindio.models.documents.Medico;
+import co.edu.uniquindio.models.enums.EstadoUsuario;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ public class MedicoMapper {
         medico.setTelefono(dto.telefono());
         medico.setCiudad(dto.ciudad());
         medico.setDireccion(dto.direccion());
-        medico.setPassword(dto.password()); // Se codificará después
+        medico.setPassword(dto.password());
 
         // Campos específicos de médico
         medico.setEspecialidad(dto.especialidad());
@@ -29,8 +30,9 @@ public class MedicoMapper {
         medico.setHoraFin(dto.horaFin());
         medico.setAñosExperiencia(dto.añosExperiencia());
         medico.setConsultorio(dto.consultorio());
-        medico.setCalificacion(0.0); // Calificación inicial
-        medico.setEstado(true); // Activo por defecto
+
+        // Estados por defecto (se hereda estado de cuenta de Usuario)
+        medico.setEstadoProfesional(true); // Estado profesional activo por defecto
 
         return medico;
     }
@@ -52,7 +54,8 @@ public class MedicoMapper {
                 medico.getHoraFin(),
                 medico.getAñosExperiencia(),
                 medico.getCalificacion(),
-                medico.getEstado(),
+                medico.getEstado(), // ← Ahora es EstadoUsuario, no Boolean
+                medico.getEstadoProfesional(), // ← Este sí es Boolean
                 medico.getConsultorio()
         );
     }
