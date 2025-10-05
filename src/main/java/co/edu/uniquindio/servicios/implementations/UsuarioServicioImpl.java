@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,18 +22,18 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     private final UsuarioRepo usuarioRepo;
     private final UsuarioMapper usuarioMapper;
     private final MongoTemplate mongoTemplate;
+    private final PasswordEncoder passwordEncoder; // ← Nuevo
 
 
     @Override
     public void crear(CrearUsuarioDTO crearUsuarioDTO) throws Exception {
-        // Validar que el email no esté repetido
         if(existeEmail(crearUsuarioDTO.email())) {
             throw new Exception("El email ya está registrado");
         }
 
         Usuario usuario = usuarioMapper.toDocument(crearUsuarioDTO);
-        // Se codifica la contraseña (si implementas seguridad)
-        // usuario.setPassword(passwordEncoder.encode(crearUsuarioDTO.password()));
+        // Se codifica la contraseña
+        usuario.setPassword(passwordEncoder.encode(crearUsuarioDTO.password()));
         usuarioRepo.save(usuario);
     }
 
