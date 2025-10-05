@@ -2,10 +2,14 @@ package co.edu.uniquindio.servicios.implementations;
 
 import co.edu.uniquindio.dto.CrearUsuarioDTO;
 import co.edu.uniquindio.dto.EditarUsuarioDTO;
+import co.edu.uniquindio.dto.TokenDTO;
+import co.edu.uniquindio.dto.LoginDTO;
+import co.edu.uniquindio.seguridad.JWTUtils;
 import co.edu.uniquindio.dto.UsuarioDTO;
 import co.edu.uniquindio.mappers.UsuarioMapper;
 import co.edu.uniquindio.models.documents.Usuario;
 import co.edu.uniquindio.repository.UsuarioRepo;
+import co.edu.uniquindio.seguridad.JWTUtils;
 import co.edu.uniquindio.servicios.interfaces.UsuarioServicio;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +19,9 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +30,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     private final UsuarioMapper usuarioMapper;
     private final MongoTemplate mongoTemplate;
     private final PasswordEncoder passwordEncoder; // ← Nuevo
+    private final JWTUtils jwtUtils;
 
 
     @Override
@@ -85,7 +93,20 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
     @Override
     public UsuarioDTO obtener(String id) throws Exception {
-        return null;
+        try {
+            // 1. Convertir String id a ObjectId
+            ObjectId objectId = new ObjectId(id);
+
+            // 2. Buscar usuario
+            Usuario usuario = usuarioRepo.findById(objectId)
+                    .orElseThrow(() -> new Exception("Usuario no encontrado"));
+
+            // 3. Convertir Entidad a DTO usando el mapper
+            return usuarioMapper.toDTO(usuario);
+
+        } catch (IllegalArgumentException e) {
+            throw new Exception("ID con formato inválido");
+        }
     }
 
     @Override
@@ -110,6 +131,36 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         // 2. Convertir a DTO usando el mapper
         return usuarioMapper.toDTO(usuario);
     }
+
+
+    @Override
+    public TokenDTO login(LoginDTO loginDTO) throws Exception {
+        Optional<Usuario> optionalUsuario = usuarioRepo.findByEmail(loginDTO.email());
+
+        if(optionalUsuario.isEmpty()) {
+            throw new Exception("El correo o contraseña son incorrectos");
+        }
+
+        Usuario usuario = optionalUsuario.get();
+
+        // Verificar si la contraseña es correcta usando el PasswordEncoder
+        if(!passwordEncoder.matches(loginDTO.password(), usuario.getPassword())) {
+            throw new Exception("El correo o contraseña son incorrectos");
+        }
+
+        String token = jwtUtils.generateToken(usuario.getCodigo().toString(), crearClaims(usuario));
+        return new TokenDTO(token);
+    }
+
+    private Map<String, String> crearClaims(Usuario usuario) {
+        return Map.of(
+                "email", usuario.getEmail(),
+                "nombre", usuario.getNombre(),
+                "rol", "ROLE_USUARIO" // Por ahora todos son USUARIO
+        );
+    }
+
+
 
 
     //TODO implementar todos los métodos de la interfaz

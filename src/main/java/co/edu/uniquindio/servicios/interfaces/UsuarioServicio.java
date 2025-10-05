@@ -1,8 +1,6 @@
 package co.edu.uniquindio.servicios.interfaces;
 
-import co.edu.uniquindio.dto.CrearUsuarioDTO;
-import co.edu.uniquindio.dto.EditarUsuarioDTO;
-import co.edu.uniquindio.dto.UsuarioDTO;
+import co.edu.uniquindio.dto.*;
 import jakarta.validation.Valid;
 
 public interface UsuarioServicio {
@@ -20,7 +18,7 @@ public interface UsuarioServicio {
 
     UsuarioDTO obtenerPorIdentificacion(String identificacion) throws Exception;
 
-
+    TokenDTO login(LoginDTO loginDTO) throws Exception;
 }
 
 
