@@ -8,6 +8,7 @@ public record UsuarioDTO(
         String telefono,
         String ciudad,
         String direccion,
-        String email
+        String email,
+        String rol  // ← Nuevo campo
 ) {
 }

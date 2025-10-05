@@ -1,6 +1,7 @@
 package co.edu.uniquindio.models.documents;
 
 
+import co.edu.uniquindio.models.enums.RolUsuario;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -26,7 +27,7 @@ public class Usuario {
     private String ciudad;
     private String direccion;
     private String password;
-
+    private RolUsuario rol;
 
 }
 
