@@ -39,10 +39,42 @@ public class Cita {
     private LocalDateTime fechaCreacion;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private String pacienteId;
     private String doctorId;
     private LocalDateTime fechaHora;
     private String motivo;
+=======
+    public Cita(String codigo,
+                ObjectId idMedico,
+                ObjectId idPaciente,
+                ObjectId idSede,
+                boolean confirmada,
+                LocalDateTime fechaCita,
+                String especialidad,
+                String duracion,
+                String consultorio,
+                String comentarios,
+                EstadoCita estado,
+                String estadoRegistro,
+                ObjectId usuarioCreacion,
+                LocalDateTime fechaCreacion) {
+        this.codigo = codigo;
+        this.idMedico = idMedico;
+        this.idPaciente = idPaciente;
+        this.idSede = idSede;
+        this.confirmada = confirmada;
+        this.fechaCita = fechaCita;
+        this.especialidad = especialidad;
+        this.duracion = duracion;
+        this.consultorio = consultorio;
+        this.comentarios = comentarios;
+        this.estado = estado;
+        this.estadoRegistro = estadoRegistro;
+        this.usuarioCreacion = usuarioCreacion;
+        this.fechaCreacion = fechaCreacion;
+    }
+>>>>>>> Stashed changes
 }
 =======
     public Cita(String codigo,

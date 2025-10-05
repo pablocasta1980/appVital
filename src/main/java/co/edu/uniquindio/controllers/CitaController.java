@@ -1,9 +1,12 @@
 package co.edu.uniquindio.controllers;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import co.edu.uniquindio.models.documents.Cita;
 import co.edu.uniquindio.servicios.interfaces.ICitaService;
 =======
+=======
+>>>>>>> Stashed changes
 import co.edu.uniquindio.dto.cita.InformacionCitaDTO;
 import co.edu.uniquindio.dto.cuenta.MensajeDTO;
 import co.edu.uniquindio.controllers.exceptions.cita.CitaNoEncontradaException;
@@ -32,6 +35,7 @@ public class CitaController {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     @GetMapping
     public ResponseEntity<List<Cita>> listarCitas() {
         return ResponseEntity.ok(citaService.listarCitas());
@@ -49,6 +53,8 @@ public class CitaController {
         citaService.eliminarCita(id);
         return ResponseEntity.noContent().build();
     }
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 }
