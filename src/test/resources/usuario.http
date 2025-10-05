@@ -1,0 +1,35 @@
+### Crear un usuario
+POST http://localhost:8081/api/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Carlos",
+  "ciudad": "Armenia",
+  "direccion": "Calle 123",
+  "email": "carlos@email.com",
+  "password": "123456"
+}
+
+### Actualizar un usuario
+PUT http://localhost:8081/api/usuarios
+Content-Type: application/json
+
+{
+  "id": 1,
+  "nombre": "Carlos",
+  "ciudad": "Armenia",
+  "direccion": "Nueva dirección"
+}
+
+### Eliminar un usuario
+DELETE http://localhost:8081/api/usuarios/1
+
+### Obtener todos los usuarios que tengan un nombre dado
+GET http://localhost:8081/api/usuarios?nombre=Carlos
+
+### Obtener todos los usuarios cuya ciudad de residencia sea Armenia
+GET http://localhost:8081/api/usuarios?ciudad=Armenia
+
+### Obtener todos los usuarios cuya ciudad de residencia sea Armenia y su nombre sea Carlos
+GET http://localhost:8081/api/usuarios?ciudad=Armenia&nombre=Carlos
+

@@ -1,8 +1,8 @@
-package co.edu.uniquindio.services.implementations;
+package co.edu.uniquindio.servicios.implementations;
 
 import co.edu.uniquindio.models.documents.Cita;
 import co.edu.uniquindio.repository.ICitaRepository;
-import co.edu.uniquindio.services.interfaces.ICitaService;
+import co.edu.uniquindio.servicios.interfaces.ICitaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

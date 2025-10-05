@@ -1,4 +1,4 @@
-package co.edu.uniquindio.services.interfaces;
+package co.edu.uniquindio.servicios.interfaces;
 
 import co.edu.uniquindio.models.documents.Cita;
 import java.util.List;

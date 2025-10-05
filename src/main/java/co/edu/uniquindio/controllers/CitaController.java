@@ -1,7 +1,7 @@
 package co.edu.uniquindio.controllers;
 
 import co.edu.uniquindio.models.documents.Cita;
-import co.edu.uniquindio.services.interfaces.ICitaService;
+import co.edu.uniquindio.servicios.interfaces.ICitaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
