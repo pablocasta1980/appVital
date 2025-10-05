@@ -37,9 +37,20 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> req
-                        // Rutas públicas
+                        // Rutas públicas - Autenticación
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll() // Permitir registro
+
+                        // Registro público de pacientes
+                        .requestMatchers(HttpMethod.POST, "/api/pacientes").permitAll()
+
+                        // Registro de médicos - Solo administradores
+                        .requestMatchers(HttpMethod.POST, "/api/medicos").hasAuthority("ROLE_ADMIN")
+
+                        // Rutas de pacientes - Accesibles por pacientes, médicos y admin
+                        .requestMatchers("/api/pacientes/**").hasAnyAuthority("ROLE_PACIENTE", "ROLE_MEDICO", "ROLE_ADMIN")
+
+                        // Rutas de médicos - Accesibles por médicos y admin
+                        .requestMatchers("/api/medicos/**").hasAnyAuthority("ROLE_MEDICO", "ROLE_ADMIN")
 
                         // Swagger UI - Rutas públicas para documentación
                         .requestMatchers("/swagger-ui/**").permitAll()

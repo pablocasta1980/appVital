@@ -1,9 +1,9 @@
 package co.edu.uniquindio.controllers;
 
-import co.edu.uniquindio.dto.LoginDTO;
 import co.edu.uniquindio.dto.MensajeDTO;
-import co.edu.uniquindio.dto.TokenDTO;
-import co.edu.uniquindio.servicios.interfaces.UsuarioServicio;
+import co.edu.uniquindio.dto.auth.LoginDTO;
+import co.edu.uniquindio.dto.auth.TokenDTO;
+import co.edu.uniquindio.servicios.interfaces.AuthServicio;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthControlador {
 
-    private final UsuarioServicio usuarioServicio;
+    private final AuthServicio authServicio;
 
     @PostMapping("/login")
-    public ResponseEntity<MensajeDTO<TokenDTO>> login(@Valid @RequestBody LoginDTO loginDTO)
-            throws Exception {
-        TokenDTO token = usuarioServicio.login(loginDTO);
+    public ResponseEntity<MensajeDTO<TokenDTO>> login(@Valid @RequestBody LoginDTO loginDTO) throws Exception {
+        TokenDTO token = authServicio.login(loginDTO);
         return ResponseEntity.ok(new MensajeDTO<>(false, token));
     }
 }

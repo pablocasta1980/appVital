@@ -1,34 +1,30 @@
 package co.edu.uniquindio.models.documents;
 
-
 import co.edu.uniquindio.models.enums.RolUsuario;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import lombok.*;
 
-@Document("usuarios")
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Usuario {
+public abstract class Usuario {
 
     @Id
     @EqualsAndHashCode.Include
-    private ObjectId codigo;
+    protected ObjectId codigo;
 
-    private String cedula;
-    private String identificacion;
-    private String nombre;
-    private String email;
-    private String telefono;
-    private String ciudad;
-    private String direccion;
-    private String password;
-    private RolUsuario rol;
-
+    // Cambiar de private a protected para que las clases hijas puedan acceder
+    protected String identificacion;
+    protected String nombre;
+    protected String email;
+    protected String telefono;
+    protected String ciudad;
+    protected String direccion;
+    protected String password;
+    protected RolUsuario rol;
 }
-
-

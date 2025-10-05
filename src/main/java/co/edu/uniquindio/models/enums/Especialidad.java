@@ -1,0 +1,17 @@
+package co.edu.uniquindio.models.enums;
+
+public enum Especialidad {
+    CARDIOLOGIA,
+    PEDIATRIA,
+    DERMATOLOGIA,
+    GINECOLOGIA,
+    ORTOPEDIA,
+    NEUROLOGIA,
+    PSICOLOGIA,
+    ODONTOLOGIA,
+    OFTALMOLOGIA,
+    UROLOGIA,
+    GASTROENTEROLOGIA,
+    ENDOCRINOLOGIA,
+    MEDICINA_GENERAL
+}
