@@ -3,6 +3,7 @@ package co.edu.uniquindio.servicios.implementations;
 import co.edu.uniquindio.dto.EmailDTO;
 import co.edu.uniquindio.dto.auth.ConfirmacionDTO;
 import co.edu.uniquindio.dto.auth.LoginDTO;
+import co.edu.uniquindio.dto.auth.RespuestaLoginDTO;
 import co.edu.uniquindio.dto.auth.TokenDTO;
 import co.edu.uniquindio.models.documents.Medico;
 import co.edu.uniquindio.models.documents.Paciente;
@@ -32,7 +33,7 @@ public class AuthServicioImpl implements AuthServicio {
     private final MedicoRepo medicoRepo;
     private final PasswordEncoder passwordEncoder;
     private final JWTUtils jwtUtils;
-    private final EmailServicio emailServicio; // ← NUEVO: Para enviar emails
+    private final EmailServicio emailServicio;
 
     @Override
     public TokenDTO login(LoginDTO loginDTO) throws Exception {
@@ -41,14 +42,22 @@ public class AuthServicioImpl implements AuthServicio {
         if (optionalPaciente.isPresent()) {
             Paciente paciente = optionalPaciente.get();
 
-            // VERIFICAR SI LA CUENTA ESTÁ ACTIVA
             if (paciente.getEstado() != EstadoUsuario.ACTIVO) {
                 throw new Exception("Cuenta no confirmada. Revise su email para activar la cuenta.");
             }
 
             if (passwordEncoder.matches(loginDTO.password(), paciente.getPassword())) {
                 String token = jwtUtils.generateToken(paciente.getCodigo().toString(), crearClaimsPaciente(paciente));
-                return new TokenDTO(token);
+
+                // ✅ DEVOLVER TOKENDTO SIN TIPOUSUARIO
+                return new TokenDTO(
+                        token,
+                        paciente.getCodigo().toString(),  // id
+                        paciente.getNombre(),             // nombre
+                        paciente.getEmail(),              // email
+                        paciente.getRol().name()          // rol
+                        // ❌ Quitamos tipoUsuario
+                );
             }
         }
 
@@ -57,23 +66,29 @@ public class AuthServicioImpl implements AuthServicio {
         if (optionalMedico.isPresent()) {
             Medico medico = optionalMedico.get();
 
-            // VERIFICAR SI LA CUENTA ESTÁ ACTIVA
             if (medico.getEstado() != EstadoUsuario.ACTIVO) {
                 throw new Exception("Cuenta no confirmada. Revise su email para activar la cuenta.");
             }
 
-            // Verificar si el médico está activo profesionalmente
             if (!medico.getEstadoProfesional()) {
                 throw new Exception("Médico inactivo. Contacte al administrador.");
             }
 
             if (passwordEncoder.matches(loginDTO.password(), medico.getPassword())) {
                 String token = jwtUtils.generateToken(medico.getCodigo().toString(), crearClaimsMedico(medico));
-                return new TokenDTO(token);
+
+                // ✅ DEVOLVER TOKENDTO SIN TIPOUSUARIO
+                return new TokenDTO(
+                        token,
+                        medico.getCodigo().toString(),    // id
+                        medico.getNombre(),               // nombre
+                        medico.getEmail(),                // email
+                        medico.getRol().name()            // rol
+
+                );
             }
         }
 
-        // Si no se encuentra en ninguna colección
         throw new Exception("Credenciales incorrectas");
     }
 
@@ -145,22 +160,25 @@ public class AuthServicioImpl implements AuthServicio {
         );
         String tokenConfirmacion = jwtUtils.generateToken(usuario.getCodigo().toString(), claims);
 
-        // Crear enlace de confirmación
-        String enlaceConfirmacion = "http://localhost:8081/api/auth/confirmar?token=" + tokenConfirmacion;
+        // Crear enlace de confirmación (para desarrollo)
+        String enlaceConfirmacion = "http://localhost:8081/api/auth/confirmar";
 
-        // Enviar email
+        // ENVIAR EMAIL REAL
         EmailDTO email = new EmailDTO(
                 "Confirma tu cuenta - Sistema de Salud",
                 "Hola " + usuario.getNombre() + ",\n\n" +
-                        "Para activar tu cuenta, haz clic en el siguiente enlace:\n" +
-                        enlaceConfirmacion + "\n\n" +
-                        "Este enlace expirará en 24 horas.\n\n" +
+                        "Para activar tu cuenta, usa el siguiente token:\n\n" +
+                        "TOKEN: " + tokenConfirmacion + "\n\n" +
+                        "O haz clic en este enlace para activar cuenta:\n\n" +
+                        enlaceConfirmacion + "?token=" + tokenConfirmacion + "\n\n" +
+                        "Este token expirará en 24 horas.\n\n" +
                         "Si no solicitaste este registro, ignora este mensaje.\n\n" +
                         "Saludos cordiales,\nEquipo de Sistema de Salud",
                 usuario.getEmail()
         );
 
         emailServicio.enviarCorreo(email);
+        System.out.println("✅ Email de confirmación enviado a: " + usuario.getEmail());
     }
 
     private Map<String, String> crearClaimsPaciente(Paciente paciente) {
@@ -181,4 +199,6 @@ public class AuthServicioImpl implements AuthServicio {
                 "especialidad", medico.getEspecialidad().name()
         );
     }
+
+
 }

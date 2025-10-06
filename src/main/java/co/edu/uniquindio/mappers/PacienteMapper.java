@@ -5,6 +5,7 @@ import co.edu.uniquindio.dto.paciente.EditarPacienteDTO;
 import co.edu.uniquindio.dto.paciente.PacienteDTO;
 import co.edu.uniquindio.models.documents.Paciente;
 import co.edu.uniquindio.models.enums.EstadoUsuario;
+import co.edu.uniquindio.models.enums.RolUsuario;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,7 @@ public class PacienteMapper {
         paciente.setAltura(dto.altura());
         paciente.setContactoEmergencia(dto.contactoEmergencia());
         paciente.setTelefonoEmergencia(dto.telefonoEmergencia());
-
+        paciente.setRol(RolUsuario.PACIENTE);
         paciente.setEstado(EstadoUsuario.INACTIVO); // ← NUEVO
 
         return paciente;

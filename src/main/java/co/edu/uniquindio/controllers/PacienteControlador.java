@@ -5,6 +5,7 @@ import co.edu.uniquindio.dto.paciente.CrearPacienteDTO;
 import co.edu.uniquindio.dto.paciente.EditarPacienteDTO;
 import co.edu.uniquindio.dto.paciente.PacienteDTO;
 import co.edu.uniquindio.servicios.interfaces.PacienteServicio;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class PacienteControlador {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth") // ← SOLO en endpoints protegidos
     public ResponseEntity<MensajeDTO<String>> editar(
             @PathVariable String id,
             @Valid @RequestBody EditarPacienteDTO pacienteDTO) throws Exception {
@@ -34,12 +36,14 @@ public class PacienteControlador {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<MensajeDTO<String>> eliminar(@PathVariable String id) throws Exception {
         pacienteServicio.eliminar(id);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Paciente eliminado exitosamente"));
     }
 
     @DeleteMapping("/identificacion/{identificacion}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<MensajeDTO<String>> eliminarPorIdentificacion(
             @PathVariable String identificacion) throws Exception {
         pacienteServicio.eliminarPorIdentificacion(identificacion);

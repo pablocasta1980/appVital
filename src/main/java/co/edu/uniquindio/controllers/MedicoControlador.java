@@ -6,6 +6,7 @@ import co.edu.uniquindio.dto.medico.EditarMedicoDTO;
 import co.edu.uniquindio.dto.medico.MedicoDTO;
 import co.edu.uniquindio.models.enums.Especialidad;
 import co.edu.uniquindio.servicios.interfaces.MedicoServicio;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/medicos")
+@SecurityRequirement(name = "bearerAuth") // ← AGREGAR ESTA LÍNEA
 @RequiredArgsConstructor
 public class MedicoControlador {
 
