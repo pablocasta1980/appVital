@@ -1,22 +1,22 @@
-package co.edu.uniquindio.controllers.exceptions.cita;
+package co.edu.uniquindio.exepciones.exceptions.cuenta;
 
 import co.edu.uniquindio.models.enums.TipoError;
 
-public class CitaNoEncontradaException extends Exception{
+public class CodigoValidacionNoEnviadoException extends Exception{
 
     private final TipoError tipoError;
 
-    public CitaNoEncontradaException(String mensaje){
+    public CodigoValidacionNoEnviadoException(String mensaje){
         super(mensaje);
         this.tipoError = TipoError.UNKNOWN_ERROR;
     }
 
-    public CitaNoEncontradaException(String mensaje, TipoError tipoError) {
+    public CodigoValidacionNoEnviadoException(String mensaje, TipoError tipoError) {
         super(mensaje);
         this.tipoError = tipoError;
     }
 
-    public CitaNoEncontradaException(String mensaje, TipoError tipoError, Throwable causa) {
+    public CodigoValidacionNoEnviadoException(String mensaje, TipoError tipoError, Throwable causa) {
         super(mensaje, causa);
         this.tipoError = tipoError;
     }

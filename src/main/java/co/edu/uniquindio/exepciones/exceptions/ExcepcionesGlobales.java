@@ -1,4 +1,4 @@
-package co.edu.uniquindio.controllers.exceptions;
+package co.edu.uniquindio.exepciones.exceptions;
 
 import co.edu.uniquindio.dto.cuenta.MensajeDTO;
 import co.edu.uniquindio.dto.exception.ValidacionDTO;

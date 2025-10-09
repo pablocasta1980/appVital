@@ -1,22 +1,22 @@
-package co.edu.uniquindio.controllers.exceptions.cuenta;
+package co.edu.uniquindio.exepciones.exceptions.cuenta;
 
 import co.edu.uniquindio.models.enums.TipoError;
 
-public class PasswordNoEditadaException extends Exception{
+public class SesionNoIniciadaException extends Exception{
 
     private final TipoError tipoError;
 
-    public PasswordNoEditadaException(String mensaje){
+    public SesionNoIniciadaException(String mensaje){
         super(mensaje);
         this.tipoError = TipoError.UNKNOWN_ERROR;
     }
 
-    public PasswordNoEditadaException(String mensaje, TipoError tipoError) {
+    public SesionNoIniciadaException(String mensaje, TipoError tipoError) {
         super(mensaje);
         this.tipoError = tipoError;
     }
 
-    public PasswordNoEditadaException(String mensaje, TipoError tipoError, Throwable causa) {
+    public SesionNoIniciadaException(String mensaje, TipoError tipoError, Throwable causa) {
         super(mensaje, causa);
         this.tipoError = tipoError;
     }

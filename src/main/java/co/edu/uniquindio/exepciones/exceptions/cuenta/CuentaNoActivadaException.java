@@ -1,4 +1,4 @@
-package co.edu.uniquindio.controllers.exceptions.cuenta;
+package co.edu.uniquindio.exepciones.exceptions.cuenta;
 
 import co.edu.uniquindio.models.enums.TipoError;
 

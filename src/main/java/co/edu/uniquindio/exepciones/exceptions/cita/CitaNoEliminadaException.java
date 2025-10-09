@@ -1,22 +1,22 @@
-package co.edu.uniquindio.controllers.exceptions.especialidad;
+package co.edu.uniquindio.exepciones.exceptions.cita;
 
 import co.edu.uniquindio.models.enums.TipoError;
 
-public class EspecialidadNoCreadaException extends Exception{
+public class CitaNoEliminadaException extends Exception{
 
     private final TipoError tipoError;
 
-    public EspecialidadNoCreadaException(String mensaje){
+    public CitaNoEliminadaException(String mensaje){
         super(mensaje);
         this.tipoError = TipoError.UNKNOWN_ERROR;
     }
 
-    public EspecialidadNoCreadaException(String mensaje, TipoError tipoError) {
+    public CitaNoEliminadaException(String mensaje, TipoError tipoError) {
         super(mensaje);
         this.tipoError = tipoError;
     }
 
-    public EspecialidadNoCreadaException(String mensaje, TipoError tipoError, Throwable causa) {
+    public CitaNoEliminadaException(String mensaje, TipoError tipoError, Throwable causa) {
         super(mensaje, causa);
         this.tipoError = tipoError;
     }

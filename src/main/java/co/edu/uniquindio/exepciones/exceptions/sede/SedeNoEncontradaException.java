@@ -1,22 +1,22 @@
-package co.edu.uniquindio.controllers.exceptions.cita;
+package co.edu.uniquindio.exepciones.exceptions.sede;
 
 import co.edu.uniquindio.models.enums.TipoError;
 
-public class PacienteNoAfiliadoException extends Exception{
+public class SedeNoEncontradaException extends Exception{
 
     private final TipoError tipoError;
 
-    public PacienteNoAfiliadoException(String mensaje){
+    public SedeNoEncontradaException(String mensaje){
         super(mensaje);
         this.tipoError = TipoError.UNKNOWN_ERROR;
     }
 
-    public PacienteNoAfiliadoException(String mensaje, TipoError tipoError) {
+    public SedeNoEncontradaException(String mensaje, TipoError tipoError) {
         super(mensaje);
         this.tipoError = tipoError;
     }
 
-    public PacienteNoAfiliadoException(String mensaje, TipoError tipoError, Throwable causa) {
+    public SedeNoEncontradaException(String mensaje, TipoError tipoError, Throwable causa) {
         super(mensaje, causa);
         this.tipoError = tipoError;
     }
