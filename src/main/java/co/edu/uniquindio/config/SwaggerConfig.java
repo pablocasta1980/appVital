@@ -1,31 +1,24 @@
+// src/main/java/co/edu/uniquindio/config/SwaggerConfig.java
 package co.edu.uniquindio.config;
 
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.info.Contact;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@SecurityScheme(
-        name = "bearerAuth",
-        scheme = "bearer",
-        bearerFormat = "JWT",
-        type = SecuritySchemeType.HTTP,
-        in = SecuritySchemeIn.HEADER
-)
 public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API MediConnect")
+                        .title("AppVital API")
                         .version("1.0")
-                        .description("Sistema de gestión médica"));
-                //.addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+                        .description("API para el sistema de gestión médica AppVital")
+                        .contact(new Contact()
+                                .name("Equipo AppVital")
+                                .email("appvital@uniquindio.edu.co")));
     }
 }

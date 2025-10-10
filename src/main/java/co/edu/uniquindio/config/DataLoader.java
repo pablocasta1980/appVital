@@ -1,96 +1,79 @@
+// src/main/java/co/edu/uniquindio/config/DataLoader.java
 package co.edu.uniquindio.config;
 
-import co.edu.uniquindio.models.documents.Medico;
-import co.edu.uniquindio.models.enums.Especialidad;
-import co.edu.uniquindio.models.enums.EstadoUsuario;
-import co.edu.uniquindio.repository.MedicoRepo;
+import co.edu.uniquindio.domain.model.Usuario;
+import co.edu.uniquindio.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
 
-    private final MedicoRepo medicoRepo;
+    private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
-        if (medicoRepo.findByEmail("cardiologo@hospital.com").isEmpty()) {
-            crearMedicosPorDefecto();
+        // Verificar si ya existen usuarios para no duplicar
+        if (usuarioRepository.count() == 0) {
+            crearUsuariosDePrueba();
         }
     }
 
-    private void crearMedicosPorDefecto() {
-        List<Medico> medicos = Arrays.asList(
-                crearMedico(
-                        "Dr. Carlos Rodríguez",
-                        "1001001001",
-                        "3001112233",
-                        "cardiologo@hospital.com",
-                        Especialidad.CARDIOLOGIA,
-                        "RM-12345",
-                        LocalTime.of(8, 0),
-                        LocalTime.of(17, 0),
-                        10,
-                        "Consultorio 101"
-                ),
-                crearMedico(
-                        "Dra. Ana Martínez",
-                        "1001001002",
-                        "3002223344",
-                        "pediatra@hospital.com",
-                        Especialidad.PEDIATRIA,
-                        "RM-12346",
-                        LocalTime.of(7, 0),
-                        LocalTime.of(15, 0),
-                        8,
-                        "Consultorio 102"
-                ),
-                crearMedico(
-                        "Dr. Luis García",
-                        "1001001003",
-                        "3003334455",
-                        "dermatologo@hospital.com",
-                        Especialidad.DERMATOLOGIA,
-                        "RM-12347",
-                        LocalTime.of(9, 0),
-                        LocalTime.of(18, 0),
-                        12,
-                        "Consultorio 103"
-                )
-        );
+    private void crearUsuariosDePrueba() {
+        // Usuario Paciente
+        Usuario paciente = Usuario.builder()
+                .nombre("María González")
+                .email("paciente@uniquindio.edu.co")
+                .password(passwordEncoder.encode("password123"))
+                .telefono("3124567890")
+                .ciudad("Armenia")
+                .direccion("Calle 123 #45-67")
+                .tipoUsuario("paciente")
+                .fechaRegistro(LocalDateTime.now())
+                .activo(true)
+                .build();
 
-        medicoRepo.saveAll(medicos);
-        System.out.println("✅ 3 médicos creados por defecto");
-    }
+        // Usuario Médico
+        Usuario medico = Usuario.builder()
+                .nombre("Dr. Carlos Rodríguez")
+                .email("medico@uniquindio.edu.co")
+                .password(passwordEncoder.encode("password123"))
+                .telefono("3156789012")
+                .ciudad("Armenia")
+                .direccion("Av. Bolívar #23-45")
+                .tipoUsuario("medico")
+                .especialidad("Cardiología")
+                .numeroLicencia("MED-123456")
+                .fechaRegistro(LocalDateTime.now())
+                .activo(true)
+                .build();
 
-    private Medico crearMedico(String nombre, String identificacion, String telefono,
-                               String email, Especialidad especialidad, String registroMedico,
-                               LocalTime horaInicio, LocalTime horaFin, Integer experiencia, String consultorio) {
-        Medico medico = new Medico();
-        medico.setNombre(nombre);
-        medico.setIdentificacion(identificacion);
-        medico.setTelefono(telefono);
-        medico.setEmail(email);
-        medico.setPassword(passwordEncoder.encode("Medico123"));
-        medico.setCiudad("Armenia");
-        medico.setDireccion("Clínica Central");
-        medico.setEspecialidad(especialidad);
-        medico.setRegistroMedico(registroMedico);
-        medico.setHoraInicio(horaInicio);
-        medico.setHoraFin(horaFin);
-        medico.setAñosExperiencia(experiencia);
-        medico.setConsultorio(consultorio);
-        medico.setCalificacion(5.0);
-        medico.setEstadoProfesional(true); // ← Estado profesional (boolean)
-        medico.setEstado(EstadoUsuario.ACTIVO); // ← Estado de cuenta (EstadoUsuario)
-        return medico;
+        // Usuario Administrativo
+        Usuario administrativo = Usuario.builder()
+                .nombre("Ana Martínez")
+                .email("admin@uniquindio.edu.co")
+                .password(passwordEncoder.encode("password123"))
+                .telefono("3145678901")
+                .ciudad("Armenia")
+                .direccion("Carrera 14 #32-10")
+                .tipoUsuario("administrativo")
+                .fechaRegistro(LocalDateTime.now())
+                .activo(true)
+                .build();
+
+        usuarioRepository.save(paciente);
+        usuarioRepository.save(medico);
+        usuarioRepository.save(administrativo);
+
+        System.out.println("✅ Usuarios de prueba creados exitosamente");
+        System.out.println("📧 Paciente: paciente@uniquindio.edu.co / password123");
+        System.out.println("👨‍⚕️ Médico: medico@uniquindio.edu.co / password123");
+        System.out.println("👩‍💼 Admin: admin@uniquindio.edu.co / password123");
     }
 }
