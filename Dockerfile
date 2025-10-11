@@ -15,6 +15,7 @@ COPY --from=build /home/gradle/src/${JAR_FILE} app.jar
 
 # Define puerto por defecto (puedes cambiarlo en tiempo de ejecución)
 ENV PORT=8081
+ENV PORT=8080
 EXPOSE ${PORT}
 
 ENTRYPOINT ["java", "-jar", "/app.jar"]
