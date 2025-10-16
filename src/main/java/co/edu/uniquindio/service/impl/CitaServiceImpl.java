@@ -20,9 +20,7 @@ public class CitaServiceImpl implements CitaService {
 
     @Override
     public CitaResponse agendarCita(String pacienteId, CitaRequest citaRequest) {
-        // TODO: Validar que el médico existe
-        // TODO: Validar que no hay cita en la misma fecha/hora
-
+       
         Cita cita = new Cita();
         cita.setPacienteId(pacienteId);
         cita.setMedicoId(citaRequest.getMedicoId());
