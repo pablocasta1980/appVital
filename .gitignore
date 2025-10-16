@@ -38,5 +38,13 @@ bin/
 ### VS Code ###
 .vscode/
 
+/.idea/
+*.class
+/.gradle/
+/*/bin/
+/*/build/
+/build/
+
+
 ### Mac OS ###
 .DS_Store

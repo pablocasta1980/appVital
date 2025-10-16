@@ -1,0 +1,46 @@
+name: CI/CD Backend - VitalApp (pablinDev)
+
+on:
+  push:
+    branches:
+      - pablinDev   # Se ejecuta cuando hagas push a esta rama
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Iniciar sesión en DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Construir y subir imagen Docker
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/vitalapp-backend:pablinDev
+            ${{ secrets.DOCKER_USERNAME }}/vitalapp-backend:latest
+
+      - name: Desplegar en servidor (solo si se quiere probar)
+        if: github.ref_name == 'pablinDev'
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/vitalapp-backend:latest
+            docker stop vitalapp-backend || true
+            docker rm vitalapp-backend || true
+            docker run -d -p 8080:8080 --name vitalapp-backend ${{ secrets.DOCKER_USERNAME }}/vitalapp-backend:latest
